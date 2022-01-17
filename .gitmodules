@@ -1,0 +1,3 @@
+[submodule "TelemetryServer22"]
+	path = TelemetryServer22
+	url = https://github.com/benmucha/TelemetryServer22
