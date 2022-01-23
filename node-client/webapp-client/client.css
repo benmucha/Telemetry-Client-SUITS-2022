@@ -3,6 +3,12 @@
   display: inline-block;
 }
 
+.hotkey {
+  font-family: monospace;
+  display: inline-block;
+  margin: auto 8px;
+}
+
 .outputText {
   background-color: lightgray;
 }
