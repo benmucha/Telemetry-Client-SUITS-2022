@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using UnityEditor;
 using UnityEngine;
 
 public class Config
@@ -12,19 +13,28 @@ public class Config
     public int ShortpollingInterval { get; }
 
     public const string ConfigFileName = "TelemetryClientConfig.xml";
+    public const string DefaultConfigFileName = "DefaultConfig";
 
     public Config(string configFilePath)
     {
-        XmlDocument doc;
+        XmlDocument doc = new XmlDocument();
+        if (!File.Exists(configFilePath))
+        {
+            Debug.Log("Config not found, setting to default.");
+            string defaultConfigText = ((TextAsset) Resources.Load(DefaultConfigFileName)).text;
+            Directory.CreateDirectory (Application.streamingAssetsPath);
+            File.WriteAllText(configFilePath, defaultConfigText);
+            AssetDatabase.Refresh();
+        }
+
         try
         {
             Debug.Log("Loading config at: " + configFilePath);
-            doc = new XmlDocument();
             doc.Load(configFilePath);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            throw new Exception("Config file not found. Config file needs to be located at: " + configFilePath);
+            throw new Exception($"Error loading config file ({configFilePath}): {e}");
         }
         
         try
