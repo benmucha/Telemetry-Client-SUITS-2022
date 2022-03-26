@@ -11,8 +11,8 @@ public class TelemetryReader
     private readonly ApiClient _apiClient;
     private CancellationTokenSource _pollingCancellationSource;
 
-    public delegate void ReceiveData(RoomSimulationStateData simulationStateRoom);
-    public event ReceiveData OnReceiveData;
+    public delegate void ReceiveSimulationStateData(RoomSimulationStateData simulationStateRoom);
+    public event ReceiveSimulationStateData OnReceiveSimulationState;
     
     public delegate void ApiError(Exception exception);
     public event ApiError OnApiError;
@@ -67,7 +67,7 @@ public class TelemetryReader
         try
         {
             var simulationState = await _apiClient.GetObject<List<RoomSimulationStateData>>("simulationstate");
-            OnReceiveData?.Invoke(simulationState.First());
+            OnReceiveSimulationState?.Invoke(simulationState.First());
         }
         catch (Exception e)
         {

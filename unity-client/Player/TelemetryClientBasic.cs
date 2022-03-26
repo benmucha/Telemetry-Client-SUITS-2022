@@ -19,7 +19,7 @@ public class TelemetryClientBasic : MonoBehaviour
     {
         //Debug.Log(config.ServerHostname);
         _telemetryReader = new TelemetryReader(config.ServerHostname, config.ServerPort, config.ShortpollingInterval);
-        _telemetryReader.OnReceiveData += OnOnReceiveData;
+        _telemetryReader.OnReceiveSimulationState += OnReceiveSimulationState;
         _telemetryReader.OnApiError += OnApiError;
         _telemetryReader.OnGetRequest += OnApiGetRequest;
         _telemetryReader.StartReading();
@@ -29,7 +29,7 @@ public class TelemetryClientBasic : MonoBehaviour
     /// Callback for receiving data.
     /// </summary>
     /// <param name="simulationStateRoom"></param>
-    private static void OnOnReceiveData(RoomSimulationStateData simulationStateRoom)
+    private static void OnReceiveSimulationState(RoomSimulationStateData simulationStateRoom)
     {
         Debug.Log($"output: {simulationStateRoom.ID} - {simulationStateRoom.WaterTimeLeft}");
     }
@@ -52,7 +52,7 @@ public class TelemetryClientBasic : MonoBehaviour
         if (_telemetryReader is null) 
             return;
         
-        _telemetryReader.OnReceiveData -= OnOnReceiveData;
+        _telemetryReader.OnReceiveSimulationState -= OnReceiveSimulationState;
         _telemetryReader.OnApiError -= OnApiError;
         _telemetryReader.StopReading();
     }
