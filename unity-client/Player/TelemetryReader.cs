@@ -12,16 +12,28 @@ public class TelemetryReader
     private CancellationTokenSource _pollingCancellationSource;
 
     public delegate void ReceiveSimulationStateData(RoomSimulationStateData simulationStateRoom);
+    /// <summary>
+    /// Invoked when a SimulationState is received from the server.
+    /// </summary>
     public event ReceiveSimulationStateData OnReceiveSimulationState;
     
     public delegate void ApiError(Exception exception);
+    /// <summary>
+    /// Invoked when there is an error making an API request, or when the API gives an error response.
+    /// </summary>
     public event ApiError OnApiError;
     
+    /// <summary>
+    /// Invoked when a GET request is made.
+    /// </summary>
     public event ApiClient.GetRequestLog OnGetRequest
     {
         add => _apiClient.OnGetRequest += value;
         remove => _apiClient.OnGetRequest -= value;
     }
+    /// <summary>
+    /// Invoked when a POST request is made.
+    /// </summary>
     public event ApiClient.PostRequestLog OnPostRequest
     {
         add => _apiClient.OnPostRequest += value;
